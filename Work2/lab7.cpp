@@ -3,10 +3,10 @@
 using namespace std;
 
 int main() {
-    float price = 0;
-    float vat = 0;
-    float sum_vat = 0;
-    float sum_price = 0;
+    float price = 0.0;
+    float vat = 0.0;
+    float sum_vat = 0.0;
+    float sum_price = 0.0;
     cout << "Enter price : ";
     cin >> price;
     cout << "Enter vat (%) : ";

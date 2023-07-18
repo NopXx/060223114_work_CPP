@@ -3,9 +3,9 @@
 using namespace std;
 
 int main() {
-    float length = 0;
-    float width = 0;
-    float area = 0;
+    float length = 0.0;
+    float width = 0.0;
+    float area = 0.0;
     cout << "Program Calculate Area Rectangle" << endl;
     cout << "----------------" << endl;
     cout << "Enter Length : ";

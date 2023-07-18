@@ -4,9 +4,9 @@ using namespace std;
 
 int main() {
     float pi = 3.1415;
-    float radius = 0;
-    float circle = 0;
-    float area_circle = 0;
+    float radius = 0.0;
+    float circle = 0.0;
+    float area_circle = 0.0;
     cout << "Program Calculate Area Circle." << endl;
     cout << "--------------------------------" << endl;
     cout << "Circle radius (real munber) : ";
