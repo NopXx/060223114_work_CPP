@@ -4,9 +4,9 @@ using namespace std;
 
 int main(){
     float f = 0.0;
-    cout << "F : ";
+    cout << "Fahrenheit : ";
     cin >> f;
     float c = (f - 32) * 5/9;
-    cout << "C : " << c << endl;
+    cout << "Celsius : " << c << endl;
     return 0;
 }
