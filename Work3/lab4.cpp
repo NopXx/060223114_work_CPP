@@ -5,9 +5,9 @@ using namespace std;
 int main(){
     int number;
 
-    // Input the number
-    std::cout << "Enter number: ";
-    std::cin >> number;
+    
+    cout << "Enter number: ";
+    cin >> number;
 
     string number_string = to_string(number);
 
