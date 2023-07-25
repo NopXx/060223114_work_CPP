@@ -19,7 +19,7 @@ int main() {
     int number_min2 = min(number_min, d_egg);
 
     
-    cout << "Result of Donation bag : " << number_min << endl;
+    cout << "Result of Donation bag : " << number_min2 << endl;
     cout << "The remaining amount of donated water : " << water - (number_min2 * 3) << endl;
     cout << "The remaining amount of donated bread : " << bread - (number_min2 * 4) << endl;
     cout << "The remaining amount of donated boiled eggs : " << egg - (number_min2 * 2) << endl;
