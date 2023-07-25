@@ -20,8 +20,8 @@ int main() {
 
     
     cout << "Result of Donation bag : " << number_min << endl;
-    cout << "The remaining amount of donated water : " << water - (number_min * 3) << endl;
-    cout << "The remaining amount of donated bread : " << bread - (number_min * 4) << endl;
-    cout << "The remaining amount of donated boiled eggs : " << egg - (number_min * 2) << endl;
+    cout << "The remaining amount of donated water : " << water - (number_min2 * 3) << endl;
+    cout << "The remaining amount of donated bread : " << bread - (number_min2 * 4) << endl;
+    cout << "The remaining amount of donated boiled eggs : " << egg - (number_min2 * 2) << endl;
     return 0;
 }
