@@ -5,13 +5,12 @@ using namespace std;
 int main(){
     int number;
 
-    
     cout << "Enter number: ";
     cin >> number;
 
     string number_string = to_string(number);
 
-    for (size_t i = 0; i < number_string.length(); i++) {
+    for (int i = 0; i < number_string.length(); i++) {
         cout << number_string[i] << "    ";
     }
 
