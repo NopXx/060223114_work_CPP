@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/6606021421012/060223114_work_CPP",
-      "program": "d:/6606021421012/060223114_work_CPP/build/Debug/outDebug",
+      "cwd": "c:/Users/khamk/Desktop/C++/060223114_work_CPP",
+      "program": "c:/Users/khamk/Desktop/C++/060223114_work_CPP/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
