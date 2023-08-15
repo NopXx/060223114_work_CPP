@@ -16,11 +16,16 @@ int main()
         cout << "4. pad pik kang moo\tprice 45 bath" << endl;
         cout << "5. moo tod ka tiaqm\tprice 45 bath" << endl;
         cout << "0. Check Out" << endl;
-        cout << "select food : ";
+        cout << "------------------" << endl;
+        cout << "select Menu : ";
         cin >> menu;
         switch (menu)
         {
+        case 0:
+            cout << "Check Out" << endl;
+            break;
         case 1:
+            cout << "Food : kai jiaw moo sub\n";
             cout << "1. kai jiaw\tprice 10 bath" << endl;
             cout << "2. kai daw\tprice 5 bath" << endl;
             cout << "3. not select " << endl;
@@ -38,6 +43,7 @@ int main()
                 total_price += 45;
             break;
         case 2:
+            cout << "Food : Pad kapao moo sub\n";
             cout << "1. kai jiaw\tprice 10 bath" << endl;
             cout << "2. kai daw\tprice 5 bath" << endl;
             cout << "3. not select " << endl;
@@ -55,6 +61,7 @@ int main()
                 total_price += 40;
             break;
         case 3:
+            cout << "Food : Pad kana moo grob\n";
             cout << "1. kai jiaw\tprice 10 bath" << endl;
             cout << "2. kai daw\tprice 5 bath" << endl;
             cout << "3. not select " << endl;
@@ -72,6 +79,7 @@ int main()
                 total_price += 55;
             break;
         case 4:
+            cout << "Food : Pad kana moo grob\n";
             cout << "1. kai jiaw\tprice 10 bath" << endl;
             cout << "2. kai daw\tprice 5 bath" << endl;
             cout << "3. not select " << endl;
@@ -106,10 +114,12 @@ int main()
                 total_price += 45;
             break;
         default:
+            cout << "------!ERROR!------" << endl;
+            cout << "unknown option" << endl;
             break;
         }
     } while (menu != 0);
     cout << "==================\n";
-    cout << "Total: " << total_price << endl;
+    cout << "Total Price: " << total_price << endl;
     return 0;
 }
