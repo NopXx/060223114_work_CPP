@@ -9,7 +9,7 @@ int main() {
     do {
         cout << "Enter number : ";
         cin >> number;
-    } while (number < 2 || number > 49);
+    } while (number < 1 || number > 49);
 
     for(int i = number; i < number + 3; ) {
             cout << ": "<< i << "\t" << setw(16);
