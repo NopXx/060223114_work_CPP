@@ -25,5 +25,5 @@ int main() {
         cout << setw(0) << endl;
         num++;
     }
-    
+    return 0;
 }
