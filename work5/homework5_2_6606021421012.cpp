@@ -1,3 +1,4 @@
+// นพรัตน์ คำโกแก้ว 6606021421012
 #include <iostream>
 #include <iomanip>
 using namespace std;
