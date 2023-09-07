@@ -20,14 +20,19 @@ void calgrade(float score) {
     else cout << "Grade F";
 }
 
-
-int main() {
-    for (int i = 0; i < 20; i++) {
-        cout << "" << setfill('=') << setw(19) << "" << endl;
-        cout << setw(4) << "" << setfill('=') << " Student " << (i + 1) << " " << setw(4) << "" << endl;
+void display() {
+    cout << "Grade Calculator" << endl;
+    for (int i = 1; i <= 20; i++) {
+        cout << "" << setfill('=') << setw(24) << "" << endl;
+        cout << setw(6) << "" << setfill('=') << " Student " << i << " " << setw(6) << "" << endl;
         setfill(' ');
-        calgrade(input_score());
+        calgrade(input_score());;
         cout << endl;
     }
+}
+
+
+int main() {
+    display();
     return 0;
 }
