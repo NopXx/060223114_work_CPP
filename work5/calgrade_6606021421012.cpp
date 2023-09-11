@@ -10,7 +10,8 @@ float input_score() {
 }
 
 void calgrade(float score) {
-    if (score >= 80) cout << "Grade A";
+    if (score > 100) cout << "Score Error ";
+    else if (score >= 80) cout << "Grade A";
     else if (score >= 75) cout << "Grade B+";
     else if (score >= 70) cout << "Grade B";
     else if (score >= 65) cout << "Grade C+";
