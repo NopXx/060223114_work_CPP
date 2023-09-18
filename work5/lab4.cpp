@@ -14,14 +14,27 @@ int main()
     return 0;
 }
 
+// void Recursive(float money, int year, float rate)
+// {
+//     cout << "|" << setw(10) << "Year" << setw(7) << "|" << setw(10) << "Money" << setw(7) << "|" << setw(10) << "Rate" << setw(7) << "|" << setw(10) << "Total" << setw(7) << "|\n";
+//     for (int i = 1; i <= year; i++)
+//     {
+//         float rate_pay = money * (rate / 100);
+//         cout << "|" << setw(10) << i << setw(7) << "|" << setw(10) << money << setw(7) << "|" << setw(10) << rate_pay;
+//         money += rate_pay;
+//         cout << setw(7) << "|" << setw(10) << money << setw(7) << "|\n";
+//     }
+// }
+
 void Recursive(float money, int year, float rate)
 {
-    cout << "|" << setw(10) << "Year" << setw(7) << "|" << setw(10) << "Money" << setw(7) << "|" << setw(10) << "Rate" << setw(7) << "|" << setw(10) << "Total" << setw(7) << "|\n";
-    for (int i = 1; i <= year; i++)
-    {
+    int i = 1;
+    if (year >= i) {
         float rate_pay = money * (rate / 100);
         cout << "|" << setw(10) << i << setw(7) << "|" << setw(10) << money << setw(7) << "|" << setw(10) << rate_pay;
         money += rate_pay;
         cout << setw(7) << "|" << setw(10) << money << setw(7) << "|\n";
-    }
+
+        Recursive(money, year - 1, rate);
+    } else return;
 }
