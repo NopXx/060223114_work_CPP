@@ -47,9 +47,35 @@ void stop_day(int month, int day) {
         {"13/King Naresuan Day", "23/Chulalongkorn Day"},
         {},
         {"05/Father's Day", "10/Constitution Day", "11/Constitution Day substitution day", "31/End Year Day"}};
-    for (int i = 0; i < 12; i++) {
-        cout << stop_day[3][i] << endl;
-    }
+string new_date[3];
+   int index = 0; 
+     for (int i = 0; i < date.length(); i++) 
+     { 
+         if (date[i] != '/') 
+         { 
+             new_date[index] += date[i]; 
+         } 
+         else { 
+             index++; 
+         } 
+     }
+     int month = stoi(new_date[1]);
+     for (int i = 0; i < 12; i++) {
+         string day = stop_day[month-1][i];
+         string temp_day[2];
+         int index = 0;
+         for (int j = 0; j < day.length(); j++) {
+             if (day[i] != '/') {
+                 temp_day[index] += day[i];
+             } else {
+                 index++;
+             }
+             
+         }
+         if (temp_day[0] == new_date[0]) {
+             cout << temp_day[0] << " : " << endl;
+         }
+     }
 }
 
 string Format_one(string date)
