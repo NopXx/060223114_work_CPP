@@ -13,7 +13,12 @@ int main()
         fib[i] = fib[i - 1] + fib[i - 2];
         cout << "Fib[" << i << "] = " << fib[i] << endl;
         if (fib[i] == n) {
-            cout << n << " is " << endl;
+            cout << n << " is Fibonacci" << endl;
+        } else {
+            if (fib[i] > n) {
+                cout << n << " is not Fibonacci" << endl;
+                break;
+            }
         }
     }
 
