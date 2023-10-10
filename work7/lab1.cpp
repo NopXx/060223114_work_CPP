@@ -53,7 +53,7 @@ void stop_day(string date)
     }
     cout << (ps_stop_day(date, new_date[0], new_date[1]) != "" ? 
         ps_stop_day(date, new_date[0], new_date[1]) : 
-        new_date[0] + " " + short_month(stoi(new_date[1])) + " is not Holiday");
+        new_date[0] + " " + full_month(stoi(new_date[1])) + " is not Holiday");
 }
 
 string ps_stop_day(string date, string day_input, string month_input)
@@ -72,9 +72,11 @@ string ps_stop_day(string date, string day_input, string month_input)
         {"13/King Naresuan Day", "23/Chulalongkorn Day"},
         {},
         {"05/Father's Day", "10/Constitution Day", "11/Constitution Day substitution day", "31/End Year Day"}};
+
     int month = stoi(month_input);
     string day[] = {};
     int index_day = 0;
+    // loop วันหยุดแต่ล่ะเดือน
     for (int i = 0; i < 12; i++)
     {
         if (!stop_day[month - 1][i].empty())
@@ -85,12 +87,14 @@ string ps_stop_day(string date, string day_input, string month_input)
     }
     string temp_day[2];
     int index_j = 0;
+    // loop วันหยุดแต่ล่ะวันมาเก็บไว้ในตัวแปร
     for (int j = 0; j < index_day; j++)
     {
         string temp = day[j];
+        // loop ตัวอักษร ในตัวแปร temp
         for (int n_str = 0; n_str < temp.length(); n_str++)
         {
-
+            // ตรวจสอบตัวอักษรแต่ล่ะว่า ไม่เท่ากับ / หรือไม่
             if (temp[n_str] != '/')
             {
                 temp_day[index_j] += temp[n_str];
@@ -100,10 +104,11 @@ string ps_stop_day(string date, string day_input, string month_input)
                 index_j++;
             }
         }
+        // ตรวจสอบว่า ข้อมูลในตัวแปร temp_day index 0 เท่ากับ ข้อมูลในตัวแปร day_input หรือไม่
         if (stoi(temp_day[0]) == stoi(day_input))
         {
 
-            result = temp_day[0] + " " + short_month(month) + " is " + temp_day[1];
+            result = temp_day[0] + " " + full_month(month) + " is " + temp_day[1];
             break;
         }
         else
