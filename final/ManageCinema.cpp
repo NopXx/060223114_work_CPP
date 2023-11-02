@@ -31,13 +31,13 @@ void ManageTicket();
 void ShowTicket();
 void DeleteTicket();
 
-void set_movie(string movie_id, string movie_name);
+void set_movie(string movie_name);
 void get_movie(string arr[][2], int &record);
 
-void set_cinema(string cinema_id, string cinema_name, string seat);
+void set_cinema(string cinema_name, string seat);
 void get_cinema(string arr[][3], int &record);
 
-void set_schedule(string schedule_id, string movie_id, string date, string s_time, string cinema_id);
+void set_schedule(string movie_id, string date, string s_time, string cinema_id);
 void get_schedule(string arr[][5], int &record);
 
 void set_ticket(string ticket_id, string schedule_id, string seat, string price);
@@ -146,19 +146,28 @@ void ScheduleMovie(string movie_id, string movie_name)
 {
     string s_arr[100][5] = {};
     string c_arr[100][3] = {};
-    string arr_schedule_id[] = {};
     int record = 0;
     int c_record = 0;
     get_schedule(s_arr, record);
     get_cinema(c_arr, c_record);
+    string schedule_id[100][5] = {};
+
+    int index = 0;
+    for (int i = 0; i < record; i++) {
+        if (s_arr[i][1].compare(movie_id) == 0) {
+            for (int j = 0; j < 5; j++) {
+                schedule_id[index][j] = s_arr[i][j];
+            }
+            index++;
+        }
+    }
     do
     {
         cout << "-------------------------" << endl;
         cout << "Schedule of "<< movie_name << endl;
         cout << "-------------------------" << endl;
         cout << "* List Schedule" << endl;
-        for (int i = 0; i < record; i++) {
-            if (s_arr[i][1].compare(movie_id) == 0) {
+        for (int i = 0; i < index; i++) {
                 // get cinema name by s_arr[i][4] (cinema id)
                 string cinema_name;
                 for (int j = 0; j < c_record; j++) {
@@ -166,9 +175,7 @@ void ScheduleMovie(string movie_id, string movie_name)
                         cinema_name = c_arr[j][1];
                     }
                 }
-                arr_schedule_id[i] = s_arr[i][0];
-                cout << i + 1 << ". Date : " << Format_date(s_arr[i][2]) << " | Time : " <<  s_arr[i][3] << " | Cinema : " << cinema_name << endl;
-            }
+                cout << i + 1 << ". Date : " << Format_date(schedule_id[i][2]) << " | Time : " <<  schedule_id[i][3] << " | Cinema : " << cinema_name << endl;
         }
         cout << " 0. Back" << endl;
         cout << "Please Input : ";
@@ -176,7 +183,7 @@ void ScheduleMovie(string movie_id, string movie_name)
 
         if (Choice != 0)
         {
-            CinemaSeats(arr_schedule_id[Choice - 1], movie_name);
+            CinemaSeats(schedule_id[Choice - 1][0], movie_name);
         }
         
     } while (Choice != 0 && !cleasChoice);  
@@ -260,11 +267,15 @@ void CinemaSeats(string schedule_id, string movie_name)
                 ismath = true;
             }
         }
-        if (!ismath && Choice != 0)
-        {
-            ResultTicket(schedule, Choice, movie_name, cinema_name);
+        if (Choice > c_seat) {
+            cout << "Seat not found\n";
         } else {
-            cout << "Seat is not available\n";
+            if (!ismath && Choice != 0)
+            {
+                ResultTicket(schedule, Choice, movie_name, cinema_name);
+            } else {
+                cout << "Seat is not available\n";
+            }
         }
         
     } while (Choice != 0 && !cleasChoice);  
@@ -277,7 +288,7 @@ void ResultTicket(string schedule[1][5], int seat, string movie_name, string cin
     int record = 0;
     get_ticket(t_arr, record);
     int option = 0;
-    int price = (seat >= 1 || seat <= 10 ? 100 : seat >= 11 || seat <= 20 ? 150 : seat >= 21 || seat <= 30 ? 200 : 0);
+    int price = (seat >= 1 && seat <= 10 ? 100 : seat >= 11 && seat <= 20 ? 150 : seat >= 21 && seat <= 30 ? 200 : 0);
     cout << "-------------------------" << endl;
     cout << "Result Ticket" << endl;
     cout << "-------------------------" << endl;
@@ -398,12 +409,13 @@ void ManageMovie()
 
 void AddMovie()
 {
-    string movie_id, movie_name;
+    string movie_name;
     cout << "Add Movie " << endl;
     cout << "=======================" << endl;
-    cout << "Please Input movie_id movie_name : ";
-    cin >> movie_id >> movie_name;
-    set_movie(movie_id, movie_name);
+    cout << "Please Input Movie Name : ";
+    cin >> movie_name;
+
+    set_movie(movie_name);
 }
 
 void ShowMovie()
@@ -459,16 +471,14 @@ void ManageCinema()
 void AddCinema()
 {
     cout << "Add Cinema " << endl;
-    string cinema_id, cinema_name, seat;
+    string cinema_name, seat;
     cout << "=======================" << endl;
-    cout << "Please Input cinema_id : ";
-    cin >> cinema_id;
-    cout << "\nPlease Input cinema_name : ";
+    cout << "Please Input cinema_name : ";
     cin >> cinema_name;
     cout << "\nPlease Input seat : ";
     cin >> seat;
 
-    set_cinema(cinema_id, cinema_name, seat);
+    set_cinema(cinema_name, seat);
 }
 
 void ShowCinema()
@@ -529,12 +539,10 @@ void ManageSchedule()
 
 void AddSchedule()
 {
-    string schedule_id, movie_id, date, s_time, cinema_id;
+    string movie_id, date, s_time, cinema_id;
     cout << "Add Schedule " << endl;
     cout << "=======================" << endl;
-    cout << "Please Input schedule_id : ";
-    cin >> schedule_id;
-    cout << "\nPlease Input movie_id : ";
+    cout << "Please Input movie_id : ";
     cin >> movie_id;
     cout << "\nPlease Input date(dd/mm/yy) : ";
     cin >> date;
@@ -543,7 +551,7 @@ void AddSchedule()
     cout << "\nPlease Input cinema_id : ";
     cin >> cinema_id;
 
-    set_schedule(schedule_id, movie_id, date, s_time, cinema_id);
+    set_schedule(movie_id, date, s_time, cinema_id);
 }
 
 void DeleteSchedule()
@@ -634,8 +642,12 @@ void DeleteTicket()
     delete_record(ticket_id, "ticket.txt");
 }
 
-void set_movie(string movie_id, string movie_name)
+void set_movie(string movie_name)
 {
+    string m_arr[100][2] = {};
+    int record = 0;
+    get_movie(m_arr, record);
+    string movie_id = "m" + to_string(record += 1);
     string filename = "movie.txt";
     ofstream OutFile(filename.c_str(), ios_base::out | ios_base::app);
 
@@ -651,8 +663,12 @@ void set_movie(string movie_id, string movie_name)
     }
 }
 
-void set_cinema(string cinema_id, string cinema_name, string seat)
+void set_cinema(string cinema_name, string seat)
 {
+    string c_arr[100][3] = {};
+    int record = 0;
+    get_cinema(c_arr, record);
+    string cinema_id = "c" + to_string(record += 1);
     string filename = "cinema.txt";
     ofstream OutFile(filename.c_str(), ios_base::out | ios_base::app);
 
@@ -668,8 +684,12 @@ void set_cinema(string cinema_id, string cinema_name, string seat)
     }
 }
 
-void set_schedule(string schedule_id, string movie_id, string date, string s_time, string cinema_id)
+void set_schedule(string movie_id, string date, string s_time, string cinema_id)
 {
+    string s_arr[100][5] = {};
+    int record = 0;
+    get_schedule(s_arr, record);
+    string schedule_id = "s" + to_string(record += 1);
     string filename = "schedule.txt";
     ofstream OutFile(filename.c_str(), ios_base::out | ios_base::app);
 

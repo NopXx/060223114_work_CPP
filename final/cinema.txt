@@ -1,1 +1,2 @@
 c1 cinema-1 15
+c2 cinema-2 20
