@@ -8,9 +8,9 @@ int Choice;
 bool cleasChoice = false;
 
 void BookingMovieTicket();
-void ScheduleMovie();
-void CinemaSeats();
-void ResultTicket();
+void ScheduleMovie(string movie_id, string movie_name);
+void CinemaSeats(string schedule_id, string movie_name);
+void ResultTicket(string schedule[1][5], int seat, string movie_name, string cinema);
 
 void ManageMovieShowTime();
 
@@ -40,10 +40,37 @@ void get_cinema(string arr[][3], int &record);
 void set_schedule(string schedule_id, string movie_id, string date, string s_time, string cinema_id);
 void get_schedule(string arr[][5], int &record);
 
-void set_ticket(string ticket_id, string schedule_id, string seat);
-void get_ticket(string arr[][3], int &record);
+void set_ticket(string ticket_id, string schedule_id, string seat, string price);
+void get_ticket(string arr[][4], int &record);
 
 void delete_record(string id, string fn);
+
+string short_month(int n)
+{
+    string month[12] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+    return month[n - 1];
+}
+
+string Format_date(string date)
+{
+    string format;
+    string new_date[3];
+    int index = 0;
+    for (int i = 0; i < date.length(); i++)
+    {
+        if (date[i] != '/')
+        {
+            new_date[index] += date[i];
+        }
+        else
+        {
+            index++;
+        }
+    }
+    int month = stoi(new_date[1]);
+    format += new_date[0] + " " + short_month(month) + " " + new_date[2];
+    return format;
+}
 
 int main()
 {
@@ -89,23 +116,25 @@ int main()
 // Booking Movie Ticket
 void BookingMovieTicket()
 {
+    string m_arr[100][2] = {};
+    int record = 0;
+    get_movie(m_arr, record);
     do
     {
         cout << "-------------------------" << endl;
         cout << "Booking Movie Ticket" << endl;
         cout << "-------------------------" << endl;
         cout << "* List Movie" << endl;
-        cout << " 1. M-1" << endl;
-        cout << " 2. M-2" << endl;
-        cout << " 3. M-3" << endl;
-        cout << " 4. M-4" << endl;
-        cout << " 0. Back" << endl;
+        for (int i = 0; i < record; i++) {
+            cout << i + 1 << ". " << m_arr[i][1] << endl;
+        }
+        cout << "0. Back" << endl;
         cout << "Please Input : ";
         cin >> Choice;
 
         if (Choice != 0)
         {
-            ScheduleMovie();
+            ScheduleMovie(m_arr[Choice - 1][0], m_arr[Choice - 1][1]);
         }
         
 
@@ -113,65 +142,173 @@ void BookingMovieTicket()
     Choice = 999;
 }
 
-void ScheduleMovie()
+void ScheduleMovie(string movie_id, string movie_name)
 {
+    string s_arr[100][5] = {};
+    string c_arr[100][3] = {};
+    string arr_schedule_id[] = {};
+    int record = 0;
+    int c_record = 0;
+    get_schedule(s_arr, record);
+    get_cinema(c_arr, c_record);
     do
     {
         cout << "-------------------------" << endl;
-        cout << "Schedule Movie" << endl;
+        cout << "Schedule of "<< movie_name << endl;
         cout << "-------------------------" << endl;
         cout << "* List Schedule" << endl;
-        cout << " 1. Date : 3 nov 23 | Time : 11 : 00 | Cinema : C-1" << endl;
-        cout << " 2. Date : 3 nov 23 | Time : 13 : 00 | Cinema : C-1" << endl;
-        cout << " 3. Date : 3 nov 23 | Time : 14 : 30 | Cinema : C-2" << endl;
+        for (int i = 0; i < record; i++) {
+            if (s_arr[i][1].compare(movie_id) == 0) {
+                // get cinema name by s_arr[i][4] (cinema id)
+                string cinema_name;
+                for (int j = 0; j < c_record; j++) {
+                    if (c_arr[j][0].compare(s_arr[i][4]) == 0) {
+                        cinema_name = c_arr[j][1];
+                    }
+                }
+                arr_schedule_id[i] = s_arr[i][0];
+                cout << i + 1 << ". Date : " << Format_date(s_arr[i][2]) << " | Time : " <<  s_arr[i][3] << " | Cinema : " << cinema_name << endl;
+            }
+        }
         cout << " 0. Back" << endl;
         cout << "Please Input : ";
         cin >> Choice;
 
         if (Choice != 0)
         {
-            CinemaSeats();
+            CinemaSeats(arr_schedule_id[Choice - 1], movie_name);
         }
         
     } while (Choice != 0 && !cleasChoice);  
     Choice = 999;
 }
 
-void CinemaSeats()
+void CinemaSeats(string schedule_id, string movie_name)
 {
+    string c_arr[100][3] = {};
+    string s_arr[100][5] = {};
+    string t_arr[100][4] = {};
+    string schedule[1][5] = {};
+    string cinema_name;
+    int seat_ticket[100] = {};
+    int c_seat = 0;
+    int c_record = 0;
+    int s_record = 0;
+    int t_record = 0;
+    get_cinema(c_arr, c_record);
+    get_schedule(s_arr, s_record);
+    get_ticket(t_arr, t_record);
+
+    // loop data schedule
+    for (int i = 0; i < s_record; i++) {
+        if (s_arr[i][0].compare(schedule_id) == 0) {
+            for (int j = 0; j < 5; j++) {
+                schedule[0][j] = s_arr[i][j];
+            }
+        }
+    }
+    // loop data cinema 
+    for (int i = 0; i < c_record; i++) {
+        if (c_arr[i][0].compare(schedule[0][4]) == 0) {
+            c_seat = stoi(c_arr[i][2]);
+            cinema_name = c_arr[i][1];
+        }
+    }
+    // loop seat ticket
+    int index = 0;
+    cout << "t_record : " << t_record << endl;
+    for (int i = 0; i < t_record; i++) {
+        if (t_arr[i][1].compare(schedule_id) == 0) {
+            seat_ticket[index] = stoi(t_arr[i][2]);
+            index++;
+        }
+    }
+
     do
     {
         cout << "-------------------------" << endl;
-        cout << "Cinema Seats" << endl;
+        cout << "Cinema : " << cinema_name << endl;
         cout << "-------------------------" << endl;
-        cout << "* List Seats" << endl;
-        cout << " 01 \t 02 \t 03 \t 04 \t 05" << endl;
-        cout << " 06 \t 07 \t 08 \t 09 \t 10" << endl;
-        cout << " 11 \t 12 \t 13 \t 14 \t 15" << endl;
-        cout << " 0. Back" << endl;
+        cout << "* List Seats\t\t\t\tPrice" << endl;
+        for (int i = 1; i <= c_seat; i++) {
+            bool ismath = false;
+            for (int j = 0; j < index; j++) {
+                if (i == seat_ticket[j]) {
+                    ismath = true;
+                }
+            }
+            if (ismath) {
+                if (i % 5 == 0 && i != 2) {
+                    cout << " \t" << (i == 5 || i == 10 ? "100" : i == 15 || i == 20 ? "150" : i == 25 || i == 30 ? "200" : "") << endl;
+                } else {
+                    cout << " " << "\t";
+                }
+            } else {
+                if (i % 5 == 0 && i != 2) {
+                    cout << i  << "\t"<< (i == 5 || i == 10 ? "100" : i == 15 || i == 20 ? "150" : i == 25 || i == 30 ? "200" : "") << endl;
+                } else {
+                    cout << i << "\t";
+                }
+            }
+        }
+        cout << "0. Back" << endl;
         cout << "Please Input : ";
         cin >> Choice;
-
-        if (Choice != 0)
+        bool ismath = false;
+        for (int j = 0; j < index; j++) {
+            if (Choice == seat_ticket[j]) {
+                ismath = true;
+            }
+        }
+        if (!ismath && Choice != 0)
         {
-            ResultTicket();
+            ResultTicket(schedule, Choice, movie_name, cinema_name);
+        } else {
+            cout << "Seat is not available\n";
         }
         
     } while (Choice != 0 && !cleasChoice);  
     Choice = 999;
 }
 
-void ResultTicket()
+void ResultTicket(string schedule[1][5], int seat, string movie_name, string cinema_name)
 {
+    string t_arr[100][4] = {};
+    int record = 0;
+    get_ticket(t_arr, record);
+    int option = 0;
+    int price = (seat >= 1 || seat <= 10 ? 100 : seat >= 11 || seat <= 20 ? 150 : seat >= 21 || seat <= 30 ? 200 : 0);
     cout << "-------------------------" << endl;
     cout << "Result Ticket" << endl;
     cout << "-------------------------" << endl;
-    cout << "Ticket ID : \t Tic005" << endl;
-    cout << "Movie : \t M1" << endl;
-    cout << "Date : \t 3 nov 23" << endl;
-    cout << "Time : \t 11:00" << endl;
-    cout << "Cinema : \t C-1" << endl;
-    cout << "Seat : \t 1" << endl;
+    cout << "Ticket ID : \t "<< schedule[0][0] << endl;
+    cout << "Movie : \t " << movie_name << endl;
+    cout << "Date : \t\t " << Format_date(schedule[0][2]) << endl;
+    cout << "Time : \t\t "<< schedule[0][3] << endl;
+    cout << "Cinema : \t " << cinema_name << endl;
+    cout << "Seat : \t\t " << seat << endl;
+    cout << "Price : \t " << price << endl;
+    cout << "-------------------\n";
+    cout << "confirm Payment\n";
+    cout << "1. Confirm\n2. Cancel\n";
+    do {
+        cout << "Enter Options : ";
+        cin >> option;
+    } while (option > 2 || option == 0);
+
+    string ticket_id = "t" + to_string(record += 1);
+    switch (option)
+    {
+    case 1:
+        set_ticket(ticket_id, schedule[0][0], to_string(seat), to_string(price));
+        break;
+    case 2:
+        cout << "Cancel\n";
+        break;
+    default:
+        break;
+    }
+
     cleasChoice = true;
 }
 
@@ -475,15 +612,15 @@ void ManageTicket()
 
 void ShowTicket()
 {
-    string t_arr[100][3] = {};
+    string t_arr[100][4] = {};
     int record = 0;
     cout << "Show Ticket " << endl;
     cout << "=======================" << endl;
-    cout << "Ticket Id\tSchedule Id\tSeat" << endl;
+    cout << "Ticket Id\tSchedule Id\tSeat\tPrice" << endl;
     get_ticket(t_arr, record);
 
     for (int row = 0; row < record; row++) {
-        cout << t_arr[row][0] << "\t\t" << t_arr[row][1] << "\t\t" << t_arr[row][2] << endl;
+        cout << t_arr[row][0] << "\t\t" << t_arr[row][1] << "\t\t" << t_arr[row][2] << "\t" << t_arr[row][3] << endl;
     }
 }
 
@@ -492,7 +629,7 @@ void DeleteTicket()
     string ticket_id;
     cout << "Delete Ticket" << endl;
     cout << "=======================" << endl;
-    cout << "Please Input ticket_id";
+    cout << "Please Input ticket_id : ";
     cin >> ticket_id;
     delete_record(ticket_id, "ticket.txt");
 }
@@ -506,6 +643,7 @@ void set_movie(string movie_id, string movie_name)
     {
         OutFile << movie_id << " " << movie_name << endl;
         OutFile.close();
+        cout << "Save successfully." << endl;
     }
     else
     {
@@ -522,6 +660,7 @@ void set_cinema(string cinema_id, string cinema_name, string seat)
     {
         OutFile << cinema_id << " " << cinema_name << " " << seat << endl;
         OutFile.close();
+        cout << "Save successfully." << endl;
     }
     else
     {
@@ -538,6 +677,7 @@ void set_schedule(string schedule_id, string movie_id, string date, string s_tim
     {
         OutFile << schedule_id << " " << movie_id << " " << date << " " << s_time << " " << cinema_id << endl;
         OutFile.close();
+        cout << "Save successfully." << endl;
     }
     else
     {
@@ -545,15 +685,16 @@ void set_schedule(string schedule_id, string movie_id, string date, string s_tim
     }
 }
 
-void set_ticket(string ticket_id, string schedule_id, string seat)
+void set_ticket(string ticket_id, string schedule_id, string seat, string price)
 {
     string filename = "ticket.txt";
     ofstream OutFile(filename.c_str(), ios_base::out | ios_base::app);
 
     if (OutFile.is_open())
     {
-        OutFile << ticket_id << " " << schedule_id << " " << seat << endl;
+        OutFile << ticket_id << " " << schedule_id << " " << seat << " " << price << endl;
         OutFile.close();
+        cout << "Save successfully." << endl;
     }
     else
     {
@@ -623,7 +764,7 @@ void get_schedule(string arr[][5], int &record) {
     }
 };
 
-void get_ticket(string arr[][3], int &record) {
+void get_ticket(string arr[][4], int &record) {
     ifstream infile("ticket.txt");
     if (!infile)
     {
@@ -631,12 +772,13 @@ void get_ticket(string arr[][3], int &record) {
     }
     else
     {
-        string ticket_id, schedule_id, seat;
-        while (record < 100 && infile >> ticket_id >> schedule_id >> seat)
+        string ticket_id, schedule_id, seat, price;
+        while (record < 100 && infile >> ticket_id >> schedule_id >> seat >> price)
         {
             arr[record][0] = ticket_id;
             arr[record][1] = schedule_id;
             arr[record][2] = seat;
+            arr[record][3] = price;
             record++;
         }
         infile.close();
