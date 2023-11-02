@@ -202,11 +202,11 @@ void ManageMovieShowTime()
             break;
 
         case 3:
-             /* code */
+             ManageSchedule();
             break;
 
         case 4:
-             /* code */
+             ManageTicket();
             break;
         
         default:
@@ -324,7 +324,7 @@ void AddCinema()
     cout << "Add Cinema " << endl;
     string cinema_id, cinema_name, seat;
     cout << "=======================" << endl;
-    cout << "Please Input cinema_id";
+    cout << "Please Input cinema_id : ";
     cin >> cinema_id;
     cout << "\nPlease Input cinema_name : ";
     cin >> cinema_name;
@@ -358,7 +358,7 @@ void ManageSchedule()
         cout << "-------------------------" << endl;
         cout << " 1. Add Schedule" << endl;
         cout << " 2. Delete Schedule" << endl;
-        cout << " 2. Show Schedule" << endl;
+        cout << " 3. Show Schedule" << endl;
         cout << " 0. Back" << endl;
         cout << "Please Input : ";
         cin >> Choice;
@@ -395,7 +395,7 @@ void AddSchedule()
     string schedule_id, movie_id, date, s_time, cinema_id;
     cout << "Add Schedule " << endl;
     cout << "=======================" << endl;
-    cout << "Please Input schedule_id";
+    cout << "Please Input schedule_id : ";
     cin >> schedule_id;
     cout << "\nPlease Input movie_id : ";
     cin >> movie_id;
@@ -414,7 +414,7 @@ void DeleteSchedule()
     string schedule_id;
     cout << "Delete Schedule " << endl;
     cout << "=======================" << endl;
-    cout << "Please Input schedule_id";
+    cout << "Please Input schedule_id : ";
     cin >> schedule_id;
     delete_record(schedule_id, "schedule.txt");
 }
@@ -425,15 +425,15 @@ void ShowSchedule()
     int record = 0;
     cout << "Show Schedule " << endl;
     cout << "=======================" << endl;
-    cout << "Schedule ID\tMovie ID\tDate\tTime\tCinema ID" << endl;
+    cout << "Schedule ID\tMovie ID\tDate\t\tTime\tCinema ID" << endl;
     get_schedule(s_arr, record);
 
     for (int row = 0; row < record; row++) {
         cout << s_arr[row][0] << "\t\t" << s_arr[row][1] << "\t\t" << s_arr[row][2];
-        cout << s_arr[row][3] << "\t\t" << s_arr[row][4];
+        cout << "\t" << s_arr[row][3] << "\t" << s_arr[row][4] << endl;
     }
 
-    cout << "=======================" << endl;
+    cout << "\n=======================" << endl;
 }
 
 // Manage Ticket
@@ -480,7 +480,7 @@ void ShowTicket()
     cout << "Show Ticket " << endl;
     cout << "=======================" << endl;
     cout << "Ticket Id\tSchedule Id\tSeat" << endl;
-    get_cinema(t_arr, record);
+    get_ticket(t_arr, record);
 
     for (int row = 0; row < record; row++) {
         cout << t_arr[row][0] << "\t\t" << t_arr[row][1] << "\t\t" << t_arr[row][2] << endl;
